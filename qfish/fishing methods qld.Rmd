@@ -48,3 +48,14 @@ ggplot(data = qfish) +
 
 ```
 
+```{r}
+qfishalldata <- read_csv("qfishalldata.csv")
+```
+
+```{r}
+ggplot(data = qfishalldata) + 
+  geom_line (mapping = aes(x=Year, y=Tonnes, colour= Fishing_Method)) + 
+  ggtitle("QLD Line Fishery")
+ 
+```
+
