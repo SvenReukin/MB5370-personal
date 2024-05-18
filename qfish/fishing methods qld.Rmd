@@ -37,4 +37,14 @@ library(readr)
 qfish <- read_csv("qfish data.csv")
 qfish
 ```
+```{r}
+qfish <- qfish %>% rename(`fish`=`Fishing Type`)
+```
+
+
+```{r}
+ggplot(data = qfish) + 
+  geom_line (mapping = aes(x=Year, y=Tonnes, colour= fish))
+
+```
 
