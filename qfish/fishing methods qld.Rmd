@@ -36,62 +36,64 @@ library(tidyverse)
 library(dplyr)
 ```
 
-```{r}
-library(readr)
-qfish <- read_csv("qfish data.csv")
-qfish
-```
+
 
 # renamed a title of a colunm without a space
 ```{r} 
-qfish <- qfish %>% rename(`fish`=`Fishing Type`)
+#qfish <- qfish %>% rename(`fish`=`Fishing Type`)
 ```
 
 # graphed an initial estimate of the data 
 ```{r}
-ggplot(data = qfish) + 
-  geom_line (mapping = aes(x=Year, y=Tonnes, colour= fish))
+#ggplot(data = qfish) + 
+ # geom_line (mapping = aes(x=Year, y=Tonnes, colour= fish))
 
 ```
 
 # reloaded R with all the data together 
 ```{r}
-qfishalldata <- read_csv("qfishalldata.csv")
+#qfishalldata <- read_csv("qfishalldata.csv")
 ```
 
 # plotted the data into a line graph and added a title 
 ```{r}
-ggplot(data = qfishalldata) + 
-  geom_line (mapping = aes(x=Year, y=Tonnes, colour= Fishing_Method)) + 
-  ggtitle("QLD Line Fishery")
+#ggplot(data = qfishalldata) + 
+ # geom_line (mapping = aes(x=Year, y=Tonnes, colour= Fishing_Method)) + 
+ # ggtitle("QLD Line Fishery")
  
 ```
 
 
 ### data rangling 
-
+#Loading data into R 
 ```{r}
 fishdata <- read_csv("fishdata.csv",col_names=TRUE)
 fishdata
 ```
 ```{r}
+fishdata1 <- read.csv("fishdata.csv", na = c("N/A",""))
+fishdata1
+```
 
-fishdata <- read_csv("fishdata.csv", na = c("N/A", ""))
-fishdata
+# 
+```{r}
+fishdata2 <- head(fishdata1, -2)
+fishdata2
 ```
 
 ```{r}
-fishdata <- head(fishdata, -2)
-fishdata
-```
-
-```{r}
-fishdata <- fishdata %>% rename(`Beam_Trawl`=`Bream`)
+#fishdata2 <- read.csv("fishdata", na = c("N/A", ""))
+#fishdata2
 ```
 
 
 ```{r}
-fishdatalong <- fishdata %>%
+#fishdata <- fishdata %>% rename(`Beam_Trawl`=`Bream`)
+```
+
+
+```{r}
+fishdatalong <- fishdata2 %>%
   pivot_longer(
     cols = -CalendarYear,
     names_to = "Fishing_Type", 
@@ -100,10 +102,14 @@ fishdatalong <- fishdata %>%
 ```
 
 ```{r}
-fishdatalong <- fishdatalong %>% mutate(across(everything(), ~ replace_na(., 0)))
-
+#fishdatalong <- fishdatalong %>% mutate(across(everything(), ~ replace_na(., 0)))
+#fishdatalong
 ```
 
+```{r}
+fishdatalong$Tonnes<-as.numeric(gsub("[,]","",fishdatalong$Tonnes))
+fishdatalong
+```
 
 
 ```{r}
@@ -116,7 +122,7 @@ ggplot(fishdatalong, aes(x = CalendarYear, y = Tonnes, color = Fishing_Type, gro
 
 ```{r}
 filtered_longdata <- fishdatalong %>%
-  filter(Fishing_Type != "Line")
+  filter(Fishing_Type != "Grand Total")
 ```
 
 ```{r}
