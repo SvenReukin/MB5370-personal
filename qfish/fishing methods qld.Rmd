@@ -37,21 +37,25 @@ library(readr)
 qfish <- read_csv("qfish data.csv")
 qfish
 ```
-```{r}
+
+# renamed a title of a colunm without a space
+```{r} 
 qfish <- qfish %>% rename(`fish`=`Fishing Type`)
 ```
 
-
+# graphed an initial estimate of the data 
 ```{r}
 ggplot(data = qfish) + 
   geom_line (mapping = aes(x=Year, y=Tonnes, colour= fish))
 
 ```
 
+# reloaded R with all the data together 
 ```{r}
 qfishalldata <- read_csv("qfishalldata.csv")
 ```
 
+# plotted the data into a line graph and added a title 
 ```{r}
 ggplot(data = qfishalldata) + 
   geom_line (mapping = aes(x=Year, y=Tonnes, colour= Fishing_Method)) + 
