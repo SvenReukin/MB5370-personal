@@ -122,7 +122,7 @@ ggplot(fishdatalong, aes(x = CalendarYear, y = Tonnes, color = Fishing_Type, gro
 
 ```{r}
 filtered_longdata <- fishdatalong %>%
-  filter(Fishing_Type != "Grand Total")
+  filter(Fishing_Type != "Grand.Total")
 ```
 
 ```{r}
