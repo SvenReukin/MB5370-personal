@@ -105,17 +105,25 @@ fishdatalong <- fishdatalong %>% mutate(across(everything(), ~ replace_na(., 0))
 ```
 
 
+
 ```{r}
 ggplot(fishdatalong, aes(x = CalendarYear, y = Tonnes, color = Fishing_Type, group = Fishing_Type)) +
   geom_line() +
   geom_point() +
-  labs(title = "Line Plot of Variables over Time", x = "Time", y = "Value") +
+  labs(title = "Tonnes of catch from different fishing methods QLD", x = "Year", y = "Tonnes") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r}
-ggplot(data = fishdatalong) + 
-  geom_line (mapping = aes(x=CalendarYear, y=Tonnes, colour= Fishing_Type)) + 
-  ggtitle("QLD Line Fishery")
+filtered_longdata <- fishdatalong %>%
+  filter(Fishing_Type != "Line")
+```
+
+```{r}
+ggplot(filtered_longdata, aes(x = CalendarYear, y = Tonnes, color = Fishing_Type, group = Fishing_Type)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Tonnes of catch from different fishing methods QLD", x = "Year", y = "Tonnes") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
