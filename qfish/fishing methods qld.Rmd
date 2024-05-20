@@ -73,7 +73,7 @@ fishdatalong <- fishdata2 %>%
 fishdatalong$Tonnes<-as.numeric(gsub("[,]","",fishdatalong$Tonnes))
 fishdatalong
 ```
-
+# Graphing 
 #Graphing the different types of fishing methods catch and total 
 ```{r}
 ggplot(fishdatalong, aes(x = CalendarYear, y = Tonnes, color = Fishing_Type, group = Fishing_Type)) +
