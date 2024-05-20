@@ -27,71 +27,37 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
+#loading tidyverse 
 ```{r}
 library(tidyverse)
 ```
-# load data into R
+#load dplyr
 ```{r}
 library(dplyr)
 ```
 
+# Data wrangling 
 
 
-# renamed a title of a colunm without a space
-```{r} 
-#qfish <- qfish %>% rename(`fish`=`Fishing Type`)
-```
-
-# graphed an initial estimate of the data 
-```{r}
-#ggplot(data = qfish) + 
- # geom_line (mapping = aes(x=Year, y=Tonnes, colour= fish))
-
-```
-
-# reloaded R with all the data together 
-```{r}
-#qfishalldata <- read_csv("qfishalldata.csv")
-```
-
-# plotted the data into a line graph and added a title 
-```{r}
-#ggplot(data = qfishalldata) + 
- # geom_line (mapping = aes(x=Year, y=Tonnes, colour= Fishing_Method)) + 
- # ggtitle("QLD Line Fishery")
- 
-```
-
-
-### data rangling 
-#Loading data into R 
+#Loading data into R and making R recognise the heading as the heading from the data 
 ```{r}
 fishdata <- read_csv("fishdata.csv",col_names=TRUE)
 fishdata
 ```
+#Converting all N/A variable to na whcih R recongnises 
 ```{r}
 fishdata1 <- read.csv("fishdata.csv", na = c("N/A",""))
 fishdata1
 ```
 
-# 
+#removing the bottom two rows of the table with incomplete 2024 data and grand total of the different types of fishing 
 ```{r}
 fishdata2 <- head(fishdata1, -2)
 fishdata2
 ```
 
-```{r}
-#fishdata2 <- read.csv("fishdata", na = c("N/A", ""))
-#fishdata2
-```
 
-
-```{r}
-#fishdata <- fishdata %>% rename(`Beam_Trawl`=`Bream`)
-```
-
-
+#transforming data from wide to long format and creating the columns fishing type and tonnes 
 ```{r}
 fishdatalong <- fishdata2 %>%
   pivot_longer(
@@ -101,17 +67,14 @@ fishdatalong <- fishdata2 %>%
   )
 ```
 
-```{r}
-#fishdatalong <- fishdatalong %>% mutate(across(everything(), ~ replace_na(., 0)))
-#fishdatalong
-```
 
+#Removing the , in tonnes and replacing them with a space 
 ```{r}
 fishdatalong$Tonnes<-as.numeric(gsub("[,]","",fishdatalong$Tonnes))
 fishdatalong
 ```
 
-
+#Graphing the different types of fishing methods catch and total 
 ```{r}
 ggplot(fishdatalong, aes(x = CalendarYear, y = Tonnes, color = Fishing_Type, group = Fishing_Type)) +
   geom_line() +
@@ -120,11 +83,13 @@ ggplot(fishdatalong, aes(x = CalendarYear, y = Tonnes, color = Fishing_Type, gro
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+#removing grand total from the data
 ```{r}
 filtered_longdata <- fishdatalong %>%
   filter(Fishing_Type != "Grand.Total")
 ```
 
+#Graph of all the different methods of fishing exculding gradn total 
 ```{r}
 ggplot(filtered_longdata, aes(x = CalendarYear, y = Tonnes, color = Fishing_Type, group = Fishing_Type)) +
   geom_line() +
